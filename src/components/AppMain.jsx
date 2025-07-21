@@ -17,7 +17,7 @@ export default function AppMain({ filmsArray, genres }) {
         }
 
         if (searchQueryTitle.trim() !== '') {
-            updatedFilms = updatedFilms.filter(film => film.title.includes(searchQueryTitle));
+            updatedFilms = updatedFilms.filter(film => film.title.toLowerCase().includes(searchQueryTitle));
         }
 
         setFilteredFilms(updatedFilms)
