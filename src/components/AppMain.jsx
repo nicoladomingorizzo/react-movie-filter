@@ -3,6 +3,14 @@ import { useState, useEffect } from "react";
 export default function AppMain({ filmsArray }) {
     const [films, setFilms] = useState(filmsArray);
     const [newFilm, setNewFilm] = useState('Aggiungi un nuovo film');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredFilms, setFilteredFilms] = useState([]);
+
+    useEffect(() => {
+        //NOTE: filtrare gli elementi che hanno ciò che inserisco nell'input
+        const filtered = films.filter(film => film.genre.includes(searchQuery));
+        setFilteredFilms(filtered)
+    }, [searchQuery, films])
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -15,21 +23,24 @@ export default function AppMain({ filmsArray }) {
 
     return (
         <>
-            <ul className="list-group list-unstyled d-flex justify-content-between">
-                {films.map(film => {
+            <input className="container form-control my-2 py-2 ps-4 mx-auto" placeholder="Cerca un genere" type="text" value={searchQuery} onChange={(e => setSearchQuery(e.target.value))} />
+            <ul className="list-group list-unstyled d-flex justify-content-between container">
+                {filteredFilms.map(film => {
                     return (
-                        <li key={film.id} className="list-group-item py-3 ps-4 ms-3 d-flex justify-content-between align-items-center">{film.title}
+                        <li key={film.id} className="list-group-item py-3 ps-4 ms-3 fs-5 d-flex justify-content-between align-items-center">Titolo: {film.title}
+                            <br />
+                            Genere: {film.genre}
                             <div>
-                                <button className="btn" onClick={() => handleClickRemove(film.id)}><i className="bi bi-trash px-1">Elimina</i></button>
+                                <button className="btn btn-outline-danger" onClick={() => handleClickRemove(film.id)}><i className="bi bi-trash px-1">Elimina</i></button>
                             </div>
                         </li>
                     );
                 })}
             </ul>
-            <form onSubmit={handleSubmit}>
+            <form className='container' onSubmit={handleSubmit}>
                 <div className="d-flex">
-                    <input className="form-control mt-2 py-2 ps-4 ms-3" placeholder="Aggiungi un nuovo film" type="text" value={newFilm} onChange={(e => setNewFilm(e.target.value))} />
-                    <button className="btn" type="submit"><i className="bi bi-floppy">Salva</i></button>
+                    <input className="form-control my-2 py-2 ps-4 ms-1" placeholder="Aggiungi un nuovo film" type="text" value={newFilm} onChange={(e => setNewFilm(e.target.value))} />
+                    <button className="btn btn-outline-primary my-2" type="submit"><i className="bi bi-floppy">Salva</i></button>
                 </div>
             </form>
         </>
