@@ -9,21 +9,27 @@ export default function AppMain({ filmsArray, genres }) {
     const [filteredFilms, setFilteredFilms] = useState([]);
 
     useEffect(() => {
-        //NOTE: filtrare gli elementi che hanno ciò che inserisco nel select
-        if (searchQueryGenre === 'default') {
-            setFilteredFilms(films)
-        } else {
-            const filtered = films.filter(film => film.genre.includes(searchQueryGenre));
-            setFilteredFilms(filtered)
+        //NOTE: filtrare gli elementi che hanno ciò che inserisco nel select e input
+        let updatedFilms = films
+
+        if (searchQueryGenre !== 'default') {
+            updatedFilms = updatedFilms.filter(film => film.genre.includes(searchQueryGenre));
         }
-    }, [searchQueryGenre, films])
+
+        if (searchQueryTitle.trim() !== '') {
+            updatedFilms = updatedFilms.filter(film => film.title.includes(searchQueryTitle));
+        }
+
+        setFilteredFilms(updatedFilms)
+
+    }, [searchQueryGenre, searchQueryTitle, films])
 
     //NOTE: Lo riuseremo per filtrare i titoli
-    useEffect(() => {
-        //NOTE: filtrare gli elementi che hanno ciò che inserisco nell'input
-        const filtered = films.filter(film => film.title.includes(searchQueryTitle));
-        setFilteredFilms(filtered)
-    }, [searchQueryTitle, films])
+    // useEffect(() => {
+    //     //NOTE: filtrare gli elementi che hanno ciò che inserisco nell'input
+    //     const filtered = films.filter(film => film.title.includes(searchQueryTitle));
+    //     setFilteredFilms(filtered)
+    // }, [searchQueryTitle, films])
 
     function handleSubmit(e) {
         e.preventDefault();
