@@ -9,6 +9,10 @@ export default function AppMain({ filmsArray }) {
         setFilms([...films, { id: Date.now(), title: newFilm }]) //INFO: Uso Date.now() per creare un id univoco in base alla data
     };
 
+    function handleClickRemove(id) {
+        setFilms(prev => prev.filter(film => film.id !== id));
+    }
+
     return (
         <>
             <ul className="list-group list-unstyled d-flex justify-content-between">
@@ -31,3 +35,16 @@ export default function AppMain({ filmsArray }) {
         </>
     )
 };
+
+/*
+Create un nuovo progetto React e implementate un sistema di filtro per una lista di film in base al genere.
+Dovrete utilizzare lo stato e useEffect per gestire il filtraggio dinamico.
+Per oggi diamo priorità alla logica e alla gestione dello stato. Una volta funzionante, possiamo pensare allo stile!
+Note
+Il filtro deve funzionare dinamicamente quando l'utente seleziona un genere dalla select.
+Se non viene selezionato alcun genere, devono essere mostrati tutti i film.
+BONUS:
+Aggiungere un campo di ricerca per filtrare i film anche per titolo.
+Creare un sistema per aggiungere nuovi film alla lista tramite un form.
+
+*/
